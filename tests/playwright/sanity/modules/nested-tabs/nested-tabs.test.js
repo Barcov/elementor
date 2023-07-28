@@ -1120,11 +1120,13 @@ test.describe( 'Nested Tabs tests @nested-tabs', () => {
 		const editor = await wpAdmin.useElementorCleanPost(),
 			container = await editor.addElement( { elType: 'container' }, 'document' ),
 			frame = await editor.getPreviewFrame();
+		const nestedTabsWidget = await frame.locator( 'e-n-tabs' ).first();
 
 		// Add widget.
 		await editor.addWidget( 'nested-tabs', container );
 		Array.from( { length: 7 }, async () => {
 			await page.locator( 'div:nth-child(2) > .elementor-repeater-row-tools > div:nth-child(2)' ).click();
+			await editor.isUiStable( nestedTabsWidget, 3, 200 );
 		} );
 
 		await test.step( 'Assert overflow x', async () => {
